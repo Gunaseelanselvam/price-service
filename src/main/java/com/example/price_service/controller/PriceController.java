@@ -10,22 +10,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.price_service.dto.PriceResponse;
+import com.example.price_service.service.PriceService;
 
 @RestController
 @RequestMapping("/api/v1/prices")
 public class PriceController {
+
+    private final PriceService priceService;
+
+    public PriceController(PriceService priceService){
+        this.priceService = priceService;
+    }
 
     @GetMapping("/live")
     public ResponseEntity<PriceResponse> getLivePrice(
         @RequestParam(defaultValue = "USD") String base,
         @RequestParam(defaultValue = "INR") String target
         ){
-            PriceResponse response = new PriceResponse(
-                base,
-                target,
-                new BigDecimal("86.50"),
-                LocalDateTime.now()
-            );
+            PriceResponse response =  priceService.getLiveAndPersistPrice(base,target);
             return ResponseEntity.ok(response);
         }
     
