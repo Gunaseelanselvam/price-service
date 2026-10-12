@@ -5,9 +5,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
 
-
+@Configuration 
 public class KafaTopicConfig{
 
+    @Bean
     public NewTopic vehiclePriceUpdatesTopic(){
         return TopicBuilder.name("vehicle-price-updates")
                 .partitions(1)
